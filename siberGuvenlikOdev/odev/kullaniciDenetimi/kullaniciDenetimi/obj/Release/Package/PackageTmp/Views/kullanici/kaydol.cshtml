@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Kayıt Ol";
+    Layout = "~/Views/layout/_Layout.cshtml";
+}
+<form method="post">
+    <div class="card">
+        <div class="card-body z-depth-2 px-4">
+            <div id="birinci">
+                <div class="md-form mt-3">
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input required name="adSoyad" type="text" id="adSoyad" class="form-control">
+                    <label for="adSoyad">Ad Soyad</label>
+                </div>
+                <div class="md-form mt-3">
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input name="kullaniciAdi" required type="text" id="kullaniciAdi" class="form-control">
+                    <label for="kullaniciAdi">Kullanıcı Adı</label>
+                </div>
+                <div class="md-form">
+                    <i class="fa fa-envelope prefix grey-text"></i>
+                    <input required type="text" name="email" id="email" class="form-control">
+                    <label for="email">E-Mail</label>
+                </div>
+
+                <div class="text-center float-left">
+                    Hesabın var mı? <a href="/kullanici/login" style="line-height:45.8px;" >Giriş Yap</a>
+                </div>
+                <div class="text-center float-right mb-3">
+                    <button id="sonraki" type="button" class="btn btn-indigo btn-block">Sonraki &nbsp;<i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div id="ikinci">
+                <div class="md-form mt-3">
+                    <i class="fa fa-lock prefix grey-text"></i>
+                    <input required type="text" name="soru" id="soru" class="form-control">
+                    <label for="soru">Güvenlik Sorusu</label>
+                </div>
+                <div class="md-form mt-3">
+                    <i class="fa fa-lock-open prefix grey-text"></i>
+                    <input required type="text" name="cevap" id="cevap" class="form-control">
+                    <label for="cevap">Soru Cevabı</label>
+                </div>
+                <div class="md-form">
+                    <i class="fas fa-key prefix grey-text"></i>
+                    <input required type="password" name="sifre" id="sifre" class="form-control">
+                    <label for="sifre">Şifre</label>
+                </div>
+                <div class="text-center float-left">
+                    <button id="geri" type="button" class="btn btn-indigo btn-block"><i class="fas fa-arrow-left"></i> &nbsp;Önceki</button>
+                </div>
+                <div class="text-center float-right mb-3">
+                    <input class="btn btn-indigo btn-block " name="kaydol" type="submit" value="Kaydı Tamamla" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#ikinci").hide();
+    });
+
+    $("#sonraki").click(function () {
+        $("#yukleniyor").show();
+        var Veri = { kullaniciAdi: $("#kullaniciAdi").val(), email: $("#email").val(), adSoyad: $("#adSoyad").val() };
+        $.ajax(
+            {
+                url: '/kullanici/girisBilgileriKontrol',
+                type: 'POST',
+                dataType: 'json',
+                data: Veri,
+                success: function (data) {
+                    $("#yukleniyor").hide();
+                    switch (data) {
+                        case "OK":
+                            {
+                                $("#birinci").hide();
+                                $("#ikinci").show();
+                                $(".card").addClass("animated flipInX");
+                                setTimeout(function () { $(".card").removeClass("animated flipInX"); }, 1000);
+                                $("#kullaniciAdi").attr("style","border-bottom:1px solid #ced4da;");
+                                $("#email").attr("style","border-bottom:1px solid #ced4da;");
+                                $("#adSoyad").attr("style","border-bottom:1px solid #ced4da;");
+                                break;
+                            }
+                        case "ka":
+                            {
+                                alert("Bu kullanıcı adı kullanımda.");
+                                $("#kullaniciAdi").attr("style","border-bottom:1px solid red;");
+                                $("#adSoyad").attr("style","border-bottom:1px solid #ced4da;");
+                                break;
+                            }
+                        case "em":
+                            {
+                                alert("Bu email kullanımda.");
+                                $("#email").attr("style","border-bottom:1px solid red;");
+                                $("#adSoyad").attr("style","border-bottom:1px solid #ced4da;");
+                                $("#kullaniciAdi").attr("style","border-bottom:1px solid #ced4da;");
+                                break;
+                            }
+                        case "emb":
+                            {
+                                alert("E-Mail boş olamaz.");
+                                $("#email").attr("style","border-bottom:1px solid red;");
+                                $("#adSoyad").attr("style","border-bottom:1px solid #ced4da;");
+                                $("#kullaniciAdi").attr("style","border-bottom:1px solid #ced4da;");
+                                break;
+                            }
+                        case "kab":
+                            {
+                                alert("Kullanıcı adı boş olamaz.");
+                                $("#kullaniciAdi").attr("style","border-bottom:1px solid red;");
+                                $("#adSoyad").attr("style","border-bottom:1px solid #ced4da;");
+                                break;
+                            }
+                        case "asb":
+                            {
+                                alert("Ad soyad boş olamaz.");
+                                $("#adSoyad").attr("style","border-bottom:1px solid red;");
+                                break;
+                            }
+                        default:
+                    }
+                }
+            });
+
+    });
+
+    $("#geri").click(function () {
+        $("#birinci").show();
+        $("#ikinci").hide();
+        $(".card").addClass("animated flipInX");
+        setTimeout(function () { $(".card").removeClass("animated flipInX"); }, 1000);
+    });
+</script>

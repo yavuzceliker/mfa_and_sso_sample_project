@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Şifremi Unuttum";
+    Layout = "~/Views/layout/_Layout.cshtml";
+}
+    <form method="post">
+        <div class="card">
+            <div class="card-body z-depth-2 px-4">
+                <div class="md-form mt-3">
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input name="kullaniciAdi" type="text" id="form3" class="form-control">
+                    <label for="form3">Kullanıcı Adı veya E-Mail</label>
+                </div>
+                <div class="text-center my-3">
+                    <button type="submit" class="btn btn-indigo btn-block" value="Gönder">Gönder</button>
+                </div>
+                <p class="text-right">Şifreni hatırladın mı? <a href="/kullanici/login">Giriş Yap</a></p>
+            </div>
+        </div>
+    </form>
+

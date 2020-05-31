@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Hoşgeldin";
+    Layout = "~/Views/layout/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body z-depth-2 px-4">
+        <div id="birinci">
+            <h3 class="text-center">Muhasebe Yönetim Sistemi</h3>
+            @{
+                if (ViewBag.oturumKontrol)
+                {
+
+                    <p>Sevgili @ViewBag.kullanici, muhasebe yönetim sistemine hoşgeldiniz.</p>
+                    <div class="text-center float-left">
+                        <a href="/home/logout"><h6 class="text-center  pb-2">Çıkış Yap</h6></a>
+                    </div>
+                }
+                else
+                {
+                    <p>Lütfen muhasebe yönetim sistemine erişmek ve görevlerinizden haberdar olmak için oturum açınız.</p>
+                    <div class="text-center float-left">
+                        Hesabın varsa <a href="https://odev.yavuzceliker.com.tr/kullanici/login/muhasebe" style="line-height:45.8px;">giriş yap.</a> Veya <a href="https://odev.yavuzceliker.com.tr/kullanic/kaydol/muhasebe">yeni bir hesap oluştur.</a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+

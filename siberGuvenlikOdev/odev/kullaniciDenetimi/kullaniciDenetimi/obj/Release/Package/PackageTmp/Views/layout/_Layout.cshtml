@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Siber Güvenliğe Giriş</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/css/mdb.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        #yukleniyor{
+            position:absolute;
+            z-index:10;
+            width:100vw;
+            height:100vh;
+            background:#ffffff;
+        }
+        #yukleniyor img{
+            width:300px;
+            height:230px;
+            position:absolute;
+            left:calc(50vw - 150px);
+            top:calc(50vh - 115px);
+        }
+        #yukleniyor h3{
+            position:absolute;
+            top:56vh;
+            width:100%;
+            text-align:center;
+        }
+    </style>
+</head>
+<body style="overflow:hidden; background-image: url('https://mdbootstrap.com/img/Photos/Others/images/90.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <script>
+        @Html.Raw(ViewBag.mesaj==null?TempData["msg"]:ViewBag.mesaj)
+    </script>
+
+    <div id="yukleniyor" style="display:none;" >
+        <img src="https://hackernoon.com/hn-images/0*4Gzjgh9Y7Gu8KEtZ.gif" />
+        <h3>Lütfen Bekleyiniz.</h3>
+    </div>
+
+    <!-- Main navigation -->
+    <div class="container-fluid mt-3 mb-5">
+
+        <!-- Full Page Intro -->
+        <section>
+            <!-- Mask & flexbox options-->
+            <div class="mask d-flex justify-content-center align-items-center">
+                <!-- Content -->
+                <div class="container py-5 my-5">
+
+                    <h3 class="font-weight-bold text-center white-text pb-2">Siber Güveliğe Giriş - Proje Ödevi</h3>
+                    <h4 class=" text-center white-text pb-2">Multi Factor Authentication - Centralized Identity Management</h4>
+                    <p class="lead text-center white-text pt-2 mb-5">@ViewBag.Title - Siber Güvenliğe Giriş</p>
+
+                    <!--Grid row-->
+                    <div class="row d-flex align-items-center justify-content-center">
+                        <!--Grid column-->
+                        <div class="col-md-6 col-xl-5">
+                            <!--Form-->
+
+                            @RenderBody()
+                            <!--/.Form-->
+                        </div>
+                        <!--Grid column-->
+                    </div>
+                    <!--Grid row-->
+                </div>
+                <!-- Content -->
+            </div>
+            <!-- Mask & flexbox options-->
+        </section>
+        <!-- Full Page Intro -->
+
+    </div>
+    <script>
+        $("#yukleniyor").hide();
+    </script>
+    <!-- Main navigation -->
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+</body>
+</html>

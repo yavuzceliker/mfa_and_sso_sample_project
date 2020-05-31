@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "sifreDegistir";
+    Layout = "~/Views/layout/_Layout.cshtml";
+}
+<form method="post">
+    <div class="card">
+        <div class="card-body z-depth-2 px-4">
+            <div id="birinci">
+                <div class="md-form mt-3">
+                    <i class="fa fa-lock prefix grey-text"></i>
+                    <input name="guvenlikSorusu" value="@ViewBag.guvenlikSorusu" readonly type="text" id="form3" class="form-control">
+                    <label for="form3">Güvenlik Sorusu</label>
+                </div>
+                <div class="md-form mt-3">
+                    <i class="fa fa-lokc-open prefix grey-text"></i>
+                    <input name="guvenlikSorusuCevap" type="text" id="guvenlikSorusuCevap" class="form-control">
+                    <label for="form3">Güvenlik Sorusu Cevabı</label>
+                </div>
+                <div class="text-center my-3">
+                    <button type="button" id="gonder" class="btn btn-indigo btn-block" value="Gönder">Gönder</button>
+                </div>
+            </div>
+            <div id="ikinci">
+                <div class="md-form mt-3">
+                    <i class="fa fa-key prefix grey-text"></i>
+                    <input name="sifre"  type="password" id="sifre" class="form-control">
+                    <label for="sifre">Yeni Şifre</label>
+                </div>
+                <div class="md-form mt-3">
+                    <i class="fa fa-key prefix grey-text"></i>
+                    <input name="sifreTekrar" type="password" id="sifreTekrar" class="form-control">
+                    <label for="sifreTekrar">Şifre Tekrar</label>
+                </div>
+                <div class="text-center my-3">
+                    <button type="submit" class="btn btn-indigo btn-block" name="kaydet" value="Şifremi Değiştir">Şifremi Değiştir</button>
+                </div>
+            </div>
+            <p class="text-right">Şifreni hatırladın mı? <a href="/kullanici/login">Giriş Yap</a></p>
+        </div>
+    </div>
+</form>
+<script>
+    $("#ikinci").hide();
+    $("#gonder").click(function () {
+        $("#yukleniyor").show();
+        var Veri = { guvenlikSorusuCevabi: $("#guvenlikSorusuCevap").val(), kod: "@Html.Raw(ViewBag.kod)", kullaniciId: @ViewBag.kullaniciId };
+    $.ajax(
+        {
+            url: '/kullanici/guvenlikSorusuDogrula',
+            type: 'POST',
+            dataType: 'json',
+            data: Veri,
+            success: function (data) {
+                $("#yukleniyor").hide();
+                if (data == "OK") {
+                    $("#birinci").hide();
+                    $("#ikinci").show();
+                    $(".card").addClass("animated flipInX");
+                    setTimeout(function () { $(".card").removeClass("animated flipInX"); }, 1000);
+                }
+                else {
+                    alert("Cevap hatalı.");
+                }
+            }
+        });
+    });
+
+</script>
+

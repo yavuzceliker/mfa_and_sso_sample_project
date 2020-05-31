@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Giriş Yap";
+    Layout = "~/Views/layout/_Layout.cshtml";
+}
+<form method="post" id="form">
+    <div class="card">
+        <div class="card-body z-depth-2 px-4">
+            <div id="birinci">
+                <div class="md-form mt-3">
+                    <i class="fa fa-user prefix grey-text"></i>
+                    <input name="kullaniciAdi" type="text" id="kullaniciAdi" class="form-control">
+                    <label for="kullaniciAdi">Kullanıcı Adı</label>
+                </div>
+                <div class="md-form">
+                    <i class="fas fa-key prefix grey-text"></i>
+                    <input name="sifre" type="password" id="sifre" class="form-control">
+                    <label for="sifre">Şifre</label>
+                </div>
+                <a class="text-left float-right" href="/kullanici/sifreyenile">Şifreni mi unuttun?</a>
+                <br />
+                <div class="text-center my-3">
+                    <button class="btn btn-indigo btn-block" id="login" value="Giriş Yap" type="button">Giriş Yap</button>
+                </div>
+            </div>
+            <div id="ikinci">
+                <p>E-mail adresinize gönderilen doğrulama kodunu giriniz.</p>
+                <div class="md-form mt-3">
+                    <i class="fa fa-key prefix grey-text"></i>
+                    <input name="dogrulamaKodu" type="text" id="dogrulamaKodu" class="form-control">
+                    <label for="form3">Doğrulama Kodu</label>
+                </div>
+                <div class="text-center my-3">
+                    <input type="hidden" name="girisYap" value="Giriş Yap" />
+                    <button class="btn btn-indigo btn-block" id="girisyap" value="Giriş Yap" type="button">Giriş Yap</button>
+                </div>
+            </div>
+
+            <p class="text-center">Hesabın yok mu? <a href="/kullanici/kaydol">Kaydol</a></p>
+        </div>
+    </div>
+</form>
+<script>
+
+
+    $("#ikinci").hide();
+    $("#login").click(function () {
+        var Veri = { kullaniciAdi: $("#kullaniciAdi").val(), sifre: $("#sifre").val(), durum: "birinci" };
+        $("#yukleniyor").show();
+        $.ajax(
+            {
+                url: '/kullanici/girisKontrol',
+                type: 'POST',
+                dataType: 'json',
+                data: Veri,
+                success: function (data) {
+                    $("#yukleniyor").hide();
+                    switch (data) {
+                        case "hesapdogrulanmamis":
+                            {
+                                alert("Hesabınız henüz doğrulanmamış lütfen email adresinizi kontrol ediniz.");
+                                break;
+                            }
+                        case "OK":
+                            {
+                                $(".card").addClass("animated rotateIn");
+                                setTimeout(function () { $(".card").removeClass("animated rotateIn") }, 1000);
+                                $("#birinci").hide();
+                                $("#ikinci").show();
+                                break;
+                            }
+                        default:
+                            {
+                                alert("Kullanıcı adı veya şifre hatalı.");
+                                break;
+                            }
+                    }
+                }
+            });
+    });
+
+    $("#girisyap").click(function () {
+        var Veri = { durum: "ikinci",dogrulamaKodu:$("#dogrulamaKodu").val() };
+        $("#yukleniyor").show();
+        $.ajax(
+            {
+                url: '/kullanici/girisKontrol',
+                type: 'POST',
+                dataType: 'json',
+                data: Veri,
+                success: function (data) {
+                    switch (data[0]) {
+                        case "kadisifrehatali":
+                            {
+                                $("#yukleniyor").hide();
+                                alert("Kullanıcı adı veya şifre hatalı.");
+                                break;
+                            }
+                        case "kodhatali":
+                            {
+                                $("#yukleniyor").hide();
+                                alert("Doğrulama kodu hatalı.");
+                                break;
+                            }
+                        case "hesapdogrulanmamis":
+                            {
+                                $("#yukleniyor").hide();
+                                alert("Hesabınız henüz doğrulanmamış lütfen email adresinizi kontrol ediniz.");
+                                break;
+                            }
+                        case "giris":
+                            {
+                                window.location = "/kullanici/yonlendir/@ViewBag.sistem";
+                                break;
+                            }
+                        default:
+                            {
+                                $("#yukleniyor").hide();
+                                alert("Bir hata oluştu.");
+                                break;
+                            }
+                    }
+                }
+            });
+    });
+</script>
